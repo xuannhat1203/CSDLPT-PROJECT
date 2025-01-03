@@ -70,6 +70,16 @@ void undoPage(Stack* stack) {
     printf("Trang web truoc do: %s\n", stack->historyWeb[stack->top]->name);
     free(stack->historyWeb[stack->top--]); 
 }
+void printfWebNow(Stack* stack){
+	if (isEmpty(stack)) {
+        printf("Trang web trong.\n");
+        return;
+    }
+    for (int i = 0; i <= stack->top; i++) {
+        printf("Name: %s, URL: %s, Access Time: %s\n", stack->historyWeb[i]->name, stack->historyWeb[i]->url, stack->historyWeb[i]->accessTime);
+    }
+    printf("\n");
+}
 void freeStack(Stack* stack) {
     while (!isEmpty(stack)) {
         free(stack->historyWeb[stack->top--]);
@@ -116,6 +126,8 @@ int main() {
                 undoPage(&history);
                 break;
             case 3:
+                printf("Trang web hien tai: \n");
+                printfWebNow(&history);
                 break;
             case 4:
                 printf("Lich su web: \n");
