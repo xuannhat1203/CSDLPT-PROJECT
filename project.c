@@ -50,6 +50,7 @@ void createWeb(inforWeb* web, char name[MAX]) {
     snprintf(web->url, MAX, "https://www.%s", name);
     strncpy(web->accessTime, dt, MAX - 1);
 }
+
 void printHistoryFromFile(const char* filename) {
     FILE* f = fopen(filename, "r");
     if (f == NULL) {
@@ -62,14 +63,18 @@ void printHistoryFromFile(const char* filename) {
     }
     fclose(f);
 }
-void undoPage(Stack* stack) {
+
+void goBackToPreviousPage(Stack* stack) {
     if (isEmpty(stack)) {
-        printf("Lich su trong\n");
-        return;
+        printf("Khong co trang truoc de quay lai.\n");
+    } else {
+        inforWeb* prevWeb = stack->historyWeb[stack->top--];
+        printf("Da quay lai trang truoc: Name: %s, URL: %s, Access Time: %s\n", 
+               prevWeb->name, prevWeb->url, prevWeb->accessTime);
+        free(prevWeb);
     }
-    printf("Trang web truoc do: %s\n", stack->historyWeb[stack->top]->name);
-    free(stack->historyWeb[stack->top--]); 
 }
+
 void freeStack(Stack* stack) {
     while (!isEmpty(stack)) {
         free(stack->historyWeb[stack->top--]);
@@ -113,7 +118,7 @@ int main() {
                 fflush(f); 
                 break;
             case 2:
-                undoPage(&history);
+                goBackToPreviousPage(&history);
                 break;
             case 3:
                 break;
