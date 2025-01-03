@@ -74,7 +74,13 @@ void goBackToPreviousPage(Stack* stack) {
         free(prevWeb);
     }
 }
-
+void printWebNow(Stack* stack){
+    if(isEmpty(stack)) {
+        printf("Trang web hien tai trong.\n");
+        return ;
+    }
+    printf("Trang web hien tai: %s, URL: %s, Access Time: %s\n", stack->historyWeb[stack->top]->name, stack->historyWeb[stack->top]->url, stack->historyWeb[stack->top]->accessTime);
+}
 void freeStack(Stack* stack) {
     while (!isEmpty(stack)) {
         free(stack->historyWeb[stack->top--]);
@@ -121,6 +127,8 @@ int main() {
                 goBackToPreviousPage(&history);
                 break;
             case 3:
+                printf("Trang web hien tai: \n");
+                printfWebNow(&history);
                 break;
             case 4:
                 printf("Lich su web: \n");
